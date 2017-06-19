@@ -1,8 +1,11 @@
 package vector
 
-type Vector []float64
+import "math"
 
-func (v Vector) validate() {
+type Vector []float64
+type binaryCondition func(v1, v2 float64) float64
+
+func validate(v Vector) {
 	if len(v) == 0 {
 		panic("empty sample supplyed")
 	}
@@ -10,7 +13,8 @@ func (v Vector) validate() {
 
 //Add subtracts two vectors element wise
 func (v Vector) Add(w Vector) Vector {
-	v.validate()
+	validate(v)
+	validate(w)
 
 	if len(v) != len(w) {
 		panic("The vectors have different sizes.")
@@ -37,4 +41,30 @@ func (v Vector) Subtract(w Vector) Vector {
 	}
 
 	return result
+}
+
+func matchingValue(fn binaryCondition, initial float64, vector Vector) float64 {
+	validate(vector)
+
+	current := initial
+	for _, value := range vector {
+		current = fn(current, value)
+	}
+	return current
+}
+
+func (v Vector) Max() float64 {
+	return matchingValue(math.Max, math.Inf(-1), v)
+}
+
+func (v Vector) Min() float64 {
+	return matchingValue(math.Min, math.Inf(+1), v)
+}
+
+func (v Vector) Size() int {
+	return len(v)
+}
+
+func (v Vector) Empty() bool {
+	return v.Size() == 0
 }

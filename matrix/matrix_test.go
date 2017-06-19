@@ -5,6 +5,8 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/rpinheiroalmeida/linalg/vector"
 )
 
 func TestShape(t *testing.T) {
@@ -108,10 +110,10 @@ func TestColumnAt(t *testing.T) {
 	cases := []struct {
 		matrix Matrix
 		col    int
-		want   []float64
+		want   vector.Vector
 	}{
-		{Matrix{Row{1.0, 1.0}, {0.0, 0.0}}, 2, []float64{1.0, 0.0}},
-		{Matrix{Row{1.0, 1.0}, {0.0, 0.0}, {3.0, 2.0}}, 1, []float64{1.0, 0.0, 3.0}},
+		{Matrix{Row{1.0, 1.0}, {0.0, 0.0}}, 2, vector.Vector{1.0, 0.0}},
+		{Matrix{Row{1.0, 1.0}, {0.0, 0.0}, {3.0, 2.0}}, 1, vector.Vector{1.0, 0.0, 3.0}},
 	}
 	for _, c := range cases {
 		got := c.matrix.ColumnAt(c.col)

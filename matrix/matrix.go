@@ -1,9 +1,13 @@
 package matrix
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/rpinheiroalmeida/linalg/vector"
+)
 
 //Row in a matrix
-type Row []float64
+type Row vector.Vector
 
 //Matrix Represents a matrix
 type Matrix []Row
@@ -36,9 +40,9 @@ func (matrix Matrix) RowAt(i int) Row {
 }
 
 //ColumnAt column in the position
-func (matrix Matrix) ColumnAt(col int) []float64 {
+func (matrix Matrix) ColumnAt(col int) vector.Vector {
 	matrix.validate()
-	column := make([]float64, len(matrix))
+	column := make(vector.Vector, len(matrix))
 	for i, row := range matrix {
 		if col > len(row) {
 			panic(fmt.Sprintf("Does not exist column in position %d", col))

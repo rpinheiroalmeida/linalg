@@ -1,7 +1,9 @@
 package vector
 
-//Add subtracts two vectors elementwise
-func Add(v, w []float64) []float64 {
+type Vector []float64
+
+//Add subtracts two vectors element wise
+func (v Vector) Add(w Vector) Vector {
 
 	if len(v) != len(w) {
 		panic("The vectors have different sizes.")
@@ -17,7 +19,7 @@ func Add(v, w []float64) []float64 {
 }
 
 //Subtract subtracts two vectors elementwise
-func Subtract(v, w []float64) []float64 {
+func (v Vector) Subtract(w Vector) Vector {
 	if len(v) != len(w) {
 		panic("The vectors have different sizes.")
 	}

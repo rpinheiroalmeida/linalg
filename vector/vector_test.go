@@ -7,16 +7,16 @@ import (
 
 func TestAdd(t *testing.T) {
 	cases := []struct {
-		v1   []float64
-		v2   []float64
-		want []float64
+		v1   Vector
+		v2   Vector
+		want Vector
 	}{
-		{[]float64{1.0, 1.0}, []float64{0.0, 0.0}, []float64{1.0, 1.0}},
-		{[]float64{1.0, 2.0}, []float64{2.0, 1.0}, []float64{3.0, 3.0}},
-		{[]float64{}, []float64{}, []float64{}},
+		{Vector{1.0, 1.0}, Vector{0.0, 0.0}, Vector{1.0, 1.0}},
+		{Vector{1.0, 2.0}, Vector{2.0, 1.0}, Vector{3.0, 3.0}},
+		{Vector{}, Vector{}, Vector{}},
 	}
 	for _, c := range cases {
-		got := Add(c.v1, c.v2)
+		got := c.v1.Add(c.v2)
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf("Add(%v, %v) want: %v; got: %v",
 				c.v1, c.v2, c.want, got)
@@ -25,8 +25,8 @@ func TestAdd(t *testing.T) {
 }
 
 func TestAdd_WhenLenVectorsAreDifferent(t *testing.T) {
-	v1 := []float64{1.0, 2.0}
-	v2 := []float64{1.0}
+	v1 := Vector{1.0, 2.0}
+	v2 := Vector{1.0}
 
 	defer func() {
 		rec := recover()
@@ -35,30 +35,30 @@ func TestAdd_WhenLenVectorsAreDifferent(t *testing.T) {
 		}
 	}()
 
-	Add(v1, v2)
+	v1.Add(v2)
 }
 
 func TestSubtract(t *testing.T) {
 	cases := []struct {
-		v1   []float64
-		v2   []float64
-		want []float64
+		v1   Vector
+		v2   Vector
+		want Vector
 	}{
-		{[]float64{1.0, 1.0}, []float64{0.0, 0.0}, []float64{1.0, 1.0}},
-		{[]float64{0.0, 1.0}, []float64{1.0, 2.0}, []float64{-1.0, -1.0}},
+		{Vector{1.0, 1.0}, Vector{0.0, 0.0}, Vector{1.0, 1.0}},
+		{Vector{0.0, 1.0}, Vector{1.0, 2.0}, Vector{-1.0, -1.0}},
 	}
 	for _, c := range cases {
-		got := Subtract(c.v1, c.v2)
+		got := c.v1.Subtract(c.v2)
 		if !reflect.DeepEqual(got, c.want) {
-			t.Errorf("Add(%v, %v) want: %v; got: %v",
+			t.Errorf("Subtract(%v, %v) want: %v; got: %v",
 				c.v1, c.v2, c.want, got)
 		}
 	}
 }
 
 func TestSubtract_WhenLenVectorAreDifferent(t *testing.T) {
-	v := []float64{1.0, 2.0}
-	w := []float64{1.0}
+	v := Vector{1.0, 2.0}
+	w := Vector{1.0}
 
 	defer func() {
 		if recover() == nil {
@@ -66,5 +66,5 @@ func TestSubtract_WhenLenVectorAreDifferent(t *testing.T) {
 		}
 	}()
 
-	Subtract(v, w)
+	v.Subtract(w)
 }

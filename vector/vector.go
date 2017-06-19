@@ -2,8 +2,15 @@ package vector
 
 type Vector []float64
 
+func (v Vector) validate() {
+	if len(v) == 0 {
+		panic("empty sample supplyed")
+	}
+}
+
 //Add subtracts two vectors element wise
 func (v Vector) Add(w Vector) Vector {
+	v.validate()
 
 	if len(v) != len(w) {
 		panic("The vectors have different sizes.")

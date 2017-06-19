@@ -13,7 +13,6 @@ func TestAdd(t *testing.T) {
 	}{
 		{Vector{1.0, 1.0}, Vector{0.0, 0.0}, Vector{1.0, 1.0}},
 		{Vector{1.0, 2.0}, Vector{2.0, 1.0}, Vector{3.0, 3.0}},
-		{Vector{}, Vector{}, Vector{}},
 	}
 	for _, c := range cases {
 		got := c.v1.Add(c.v2)
@@ -22,6 +21,32 @@ func TestAdd(t *testing.T) {
 				c.v1, c.v2, c.want, got)
 		}
 	}
+}
+
+func TestAdd_WhenVectorsReceiverIsEmpty(t *testing.T) {
+	v1, v2 := Vector{}, Vector{}
+
+	defer func() {
+		rec := recover()
+		if rec == nil {
+			t.Errorf("The vector (%v) is empty", v1)
+		}
+	}()
+
+	v1.Add(v2)
+}
+
+func TestAdd_WhenVectorsSenderIsEmpty(t *testing.T) {
+	v1, v2 := Vector{1.0}, Vector{}
+
+	defer func() {
+		rec := recover()
+		if rec == nil {
+			t.Errorf("The vector (%v) is empty", v2)
+		}
+	}()
+
+	v1.Add(v2)
 }
 
 func TestAdd_WhenLenVectorsAreDifferent(t *testing.T) {

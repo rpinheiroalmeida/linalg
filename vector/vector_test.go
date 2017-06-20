@@ -149,3 +149,5 @@ func TestMinFail(t *testing.T) {
 
 	Vector{}.Min()
 }
+
+//TODO IMPLEMENTAR SUM_OF_SQUARES E DOT E ZIP

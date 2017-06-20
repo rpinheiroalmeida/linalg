@@ -1,6 +1,10 @@
 package vector
 
-import "math"
+import (
+	"math"
+
+	"github.com/rpinheiroalmeida/linalg/util"
+)
 
 type Vector []float64
 type binaryCondition func(v1, v2 float64) float64
@@ -41,6 +45,27 @@ func (v Vector) Subtract(w Vector) Vector {
 	}
 
 	return result
+}
+
+func (v Vector) Dot(w Vector) float64 {
+	tuples, error := util.Zip(v, w)
+	if error != nil {
+		return 0
+	}
+	var sum float64
+	for _, tuple := range tuples {
+		sum += tuple.A * tuple.B
+	}
+	return sum
+}
+
+func (v Vector) SumOfSquares() float64 {
+	return v.Dot(v)
+}
+
+func (v Vector) SquaredDistance(w Vector) float64 {
+	result := v.Subtract(w)
+	return result.SumOfSquares()
 }
 
 func matchingValue(fn binaryCondition, initial float64, vector Vector) float64 {

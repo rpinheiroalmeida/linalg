@@ -150,4 +150,61 @@ func TestMinFail(t *testing.T) {
 	Vector{}.Min()
 }
 
-//TODO IMPLEMENTAR SUM_OF_SQUARES E DOT E ZIP
+func TestDot(t *testing.T) {
+	cases := []struct {
+		v1   Vector
+		v2   Vector
+		want float64
+	}{
+		{Vector{1.0, 1.0}, Vector{1.0, 1.0}, 2.0},
+		{Vector{1.0, 2.0, 3.0}, Vector{4.0, 5.0}, 14.0},
+		{Vector{1.0}, Vector{2.0, 5.0}, 2.0},
+		{Vector{}, Vector{2.0, 5.0}, 0.0},
+	}
+
+	for _, c := range cases {
+		gotDot := c.v1.Dot(c.v2)
+		if gotDot != c.want {
+			t.Errorf("%v.Dot(%v) want: %v but got: %v", c.v1, c.v2, c.want, gotDot)
+		}
+	}
+}
+
+func TestSumOfSquares(t *testing.T) {
+	cases := []struct {
+		Vector
+		want float64
+	}{
+		{Vector{1.0, 1.0}, 2},
+		{Vector{1.0, 2.0, 3.0}, 14.0},
+		{Vector{0.0, 0.0, 0.0}, 0.0},
+	}
+
+	for _, c := range cases {
+		gotSumOfSquares := c.SumOfSquares()
+		if c.want != gotSumOfSquares {
+			t.Errorf("(%v).SumOfSquares want: %v but got: %v", c.Vector, c.want,
+				gotSumOfSquares)
+		}
+	}
+}
+
+// def squared_distance(v, w):
+//     return sum_of_squares(vector_subtract(v, w))
+func TestSquaredDistance(t *testing.T) {
+	cases := []struct {
+		v1   Vector
+		v2   Vector
+		want float64
+	}{
+		{Vector{1, 1}, Vector{2, 2}, 2},
+	}
+
+	for _, c := range cases {
+		gotSquaredDistance := c.v1.SquaredDistance(c.v2)
+		if c.want != gotSquaredDistance {
+			t.Errorf("(%v).SquaredDistance(%v) want: %v but expected: %v", c.v1, c.v2,
+				c.want, gotSquaredDistance)
+		}
+	}
+}

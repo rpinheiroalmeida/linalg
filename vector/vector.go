@@ -58,8 +58,7 @@ func (v Vector) SquaredDistance(w Vector) float64 {
 }
 
 func (v Vector) Distance(w Vector) float64 {
-	squareDistance := v.SquaredDistance(w)
-	return math.Sqrt(squareDistance)
+	return math.Sqrt(v.SquaredDistance(w))
 }
 
 func matchingValue(fn binaryCondition, initial float64, vector Vector) float64 {

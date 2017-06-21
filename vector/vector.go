@@ -16,56 +16,31 @@ func validate(v Vector) {
 }
 
 //Add subtracts two vectors element wise
-func (v Vector) Add(w Vector) (Vector, error) {
-	tuples, error := util.Zip(v, w)
-
-	if error != nil {
-		return nil, error
-	}
+func (v Vector) Add(w Vector) Vector {
+	tuples := util.Zip(v, w)
 
 	result := make(Vector, len(tuples))
 
 	for i, value := range tuples {
 		result[i] = value.A + value.B
 	}
-	return result, error
-	// // validate(v)
-	// // validate(w)
-	// //
-	// // if len(v) != len(w) {
-	// // 	panic("The vectors have different sizes.")
-	// // }
-	// //
-	// // result := make([]float64, len(v))
-	// //
-	// // for i, x := range v {
-	// // 	result[i] = x + w[i]
-	// // }
-	//
-	// return result
+	return result
 }
 
 //Subtract subtracts two vectors elementwise
-func (v Vector) Subtract(w Vector) (Vector, error) {
-	tuples, error := util.Zip(v, w)
-
-	if error != nil {
-		return nil, error
-	}
+func (v Vector) Subtract(w Vector) Vector {
+	tuples := util.Zip(v, w)
 
 	result := make(Vector, len(tuples))
 
 	for i, value := range tuples {
 		result[i] = value.A - value.B
 	}
-	return result, error
+	return result
 }
 
 func (v Vector) Dot(w Vector) float64 {
-	tuples, error := util.Zip(v, w)
-	if error != nil {
-		return 0
-	}
+	tuples := util.Zip(v, w)
 	var sum float64
 	for _, tuple := range tuples {
 		sum += tuple.A * tuple.B
@@ -77,14 +52,14 @@ func (v Vector) SumOfSquares() float64 {
 	return v.Dot(v)
 }
 
-func (v Vector) SquaredDistance(w Vector) (float64, error) {
-	result, error := v.Subtract(w)
-	return result.SumOfSquares(), error
+func (v Vector) SquaredDistance(w Vector) float64 {
+	result := v.Subtract(w)
+	return result.SumOfSquares()
 }
 
-func (v Vector) Distance(w Vector) (float64, error) {
-	squareDistance, error := v.SquaredDistance(w)
-	return math.Sqrt(squareDistance), error
+func (v Vector) Distance(w Vector) float64 {
+	squareDistance := v.SquaredDistance(w)
+	return math.Sqrt(squareDistance)
 }
 
 func matchingValue(fn binaryCondition, initial float64, vector Vector) float64 {

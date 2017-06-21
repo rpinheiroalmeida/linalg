@@ -15,30 +15,15 @@ func TestAdd(t *testing.T) {
 		{Vector{1.0, 2.0}, Vector{2.0, 1.0}, Vector{3.0, 3.0}},
 		{Vector{1.0, 2.0}, Vector{2.0}, Vector{3.0}},
 		{Vector{2.0}, Vector{1.0, 2.0}, Vector{3.0}},
+		{Vector{}, Vector{}, Vector{}},
+		{Vector{2.0}, Vector{}, Vector{}},
+		{Vector{}, Vector{2.0}, Vector{}},
 	}
 	for _, c := range cases {
-		got, _ := c.v1.Add(c.v2)
+		got := c.v1.Add(c.v2)
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf("Add(%v, %v) want: %v; got: %v",
 				c.v1, c.v2, c.want, got)
-		}
-	}
-}
-
-func TestAdd_WhenVectorsReceiverIsEmpty(t *testing.T) {
-	cases := []struct {
-		v1 Vector
-		v2 Vector
-	}{
-		{Vector{}, Vector{}},
-		{Vector{1.0}, Vector{}},
-		{Vector{}, Vector{1.0}},
-	}
-
-	for _, c := range cases {
-		_, error := c.v1.Add(c.v2)
-		if error == nil {
-			t.Errorf("(%v).Add(%v) must be thrown an error.", c.v1, c.v2)
 		}
 	}
 }
@@ -53,9 +38,12 @@ func TestSubtract(t *testing.T) {
 		{Vector{0.0, 1.0}, Vector{1.0, 2.0}, Vector{-1.0, -1.0}},
 		{Vector{1.0, 2.0}, Vector{1.0}, Vector{0.0}},
 		{Vector{1.0}, Vector{2.0, 3.0}, Vector{-1.0}},
+		{Vector{}, Vector{}, Vector{}},
+		{Vector{2.0}, Vector{}, Vector{}},
+		{Vector{}, Vector{2.0}, Vector{}},
 	}
 	for _, c := range cases {
-		got, _ := c.v1.Subtract(c.v2)
+		got := c.v1.Subtract(c.v2)
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf("Subtract(%v, %v) want: %v; got: %v",
 				c.v1, c.v2, c.want, got)
@@ -170,7 +158,7 @@ func TestSquaredDistance(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		gotSquaredDistance, _ := c.v1.SquaredDistance(c.v2)
+		gotSquaredDistance := c.v1.SquaredDistance(c.v2)
 		if c.want != gotSquaredDistance {
 			t.Errorf("(%v).SquaredDistance(%v) want: %v but expected: %v", c.v1, c.v2,
 				c.want, gotSquaredDistance)
@@ -189,7 +177,7 @@ func TestDistance(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		gotDistance, _ := c.v1.Distance(c.v2)
+		gotDistance := c.v1.Distance(c.v2)
 		if c.want != gotDistance {
 			t.Errorf("(%v).Distance(%v) want: %v but got %v", c.v1, c.v2, c.want,
 				gotDistance)

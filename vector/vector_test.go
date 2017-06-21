@@ -13,9 +13,11 @@ func TestAdd(t *testing.T) {
 	}{
 		{Vector{1.0, 1.0}, Vector{0.0, 0.0}, Vector{1.0, 1.0}},
 		{Vector{1.0, 2.0}, Vector{2.0, 1.0}, Vector{3.0, 3.0}},
+		{Vector{1.0, 2.0}, Vector{2.0}, Vector{3.0}},
+		{Vector{2.0}, Vector{1.0, 2.0}, Vector{3.0}},
 	}
 	for _, c := range cases {
-		got := c.v1.Add(c.v2)
+		got, _ := c.v1.Add(c.v2)
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf("Add(%v, %v) want: %v; got: %v",
 				c.v1, c.v2, c.want, got)
@@ -24,43 +26,21 @@ func TestAdd(t *testing.T) {
 }
 
 func TestAdd_WhenVectorsReceiverIsEmpty(t *testing.T) {
-	v1, v2 := Vector{}, Vector{}
+	cases := []struct {
+		v1 Vector
+		v2 Vector
+	}{
+		{Vector{}, Vector{}},
+		{Vector{1.0}, Vector{}},
+		{Vector{}, Vector{1.0}},
+	}
 
-	defer func() {
-		rec := recover()
-		if rec == nil {
-			t.Errorf("The vector (%v) is empty", v1)
+	for _, c := range cases {
+		_, error := c.v1.Add(c.v2)
+		if error == nil {
+			t.Errorf("(%v).Add(%v) must be thrown an error.", c.v1, c.v2)
 		}
-	}()
-
-	v1.Add(v2)
-}
-
-func TestAdd_WhenVectorsSenderIsEmpty(t *testing.T) {
-	v1, v2 := Vector{1.0}, Vector{}
-
-	defer func() {
-		rec := recover()
-		if rec == nil {
-			t.Errorf("The vector (%v) is empty", v2)
-		}
-	}()
-
-	v1.Add(v2)
-}
-
-func TestAdd_WhenLenVectorsAreDifferent(t *testing.T) {
-	v1 := Vector{1.0, 2.0}
-	v2 := Vector{1.0}
-
-	defer func() {
-		rec := recover()
-		if rec == nil {
-			t.Errorf("The vectors (%v, %v) have different sizes.", v1, v2)
-		}
-	}()
-
-	v1.Add(v2)
+	}
 }
 
 func TestSubtract(t *testing.T) {
@@ -71,27 +51,16 @@ func TestSubtract(t *testing.T) {
 	}{
 		{Vector{1.0, 1.0}, Vector{0.0, 0.0}, Vector{1.0, 1.0}},
 		{Vector{0.0, 1.0}, Vector{1.0, 2.0}, Vector{-1.0, -1.0}},
+		{Vector{1.0, 2.0}, Vector{1.0}, Vector{0.0}},
+		{Vector{1.0}, Vector{2.0, 3.0}, Vector{-1.0}},
 	}
 	for _, c := range cases {
-		got := c.v1.Subtract(c.v2)
+		got, _ := c.v1.Subtract(c.v2)
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf("Subtract(%v, %v) want: %v; got: %v",
 				c.v1, c.v2, c.want, got)
 		}
 	}
-}
-
-func TestSubtract_WhenLenVectorAreDifferent(t *testing.T) {
-	v := Vector{1.0, 2.0}
-	w := Vector{1.0}
-
-	defer func() {
-		if recover() == nil {
-			t.Errorf("The vector (%v, %v) have different sizes.", v, w)
-		}
-	}()
-
-	v.Subtract(w)
 }
 
 func TestMax(t *testing.T) {
@@ -201,10 +170,29 @@ func TestSquaredDistance(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		gotSquaredDistance := c.v1.SquaredDistance(c.v2)
+		gotSquaredDistance, _ := c.v1.SquaredDistance(c.v2)
 		if c.want != gotSquaredDistance {
 			t.Errorf("(%v).SquaredDistance(%v) want: %v but expected: %v", c.v1, c.v2,
 				c.want, gotSquaredDistance)
+		}
+	}
+}
+
+func TestDistance(t *testing.T) {
+	cases := []struct {
+		v1   Vector
+		v2   Vector
+		want float64
+	}{
+		{Vector{1.0, 1.0}, Vector{2.0, 2.0}, 1.4142135623730951},
+		{Vector{1.0}, Vector{2.0, 2.0}, 1.0},
+	}
+
+	for _, c := range cases {
+		gotDistance, _ := c.v1.Distance(c.v2)
+		if c.want != gotDistance {
+			t.Errorf("(%v).Distance(%v) want: %v but got %v", c.v1, c.v2, c.want,
+				gotDistance)
 		}
 	}
 }

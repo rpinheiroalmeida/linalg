@@ -16,35 +16,49 @@ func validate(v Vector) {
 }
 
 //Add subtracts two vectors element wise
-func (v Vector) Add(w Vector) Vector {
-	validate(v)
-	validate(w)
+func (v Vector) Add(w Vector) (Vector, error) {
+	tuples, error := util.Zip(v, w)
 
-	if len(v) != len(w) {
-		panic("The vectors have different sizes.")
+	if error != nil {
+		return nil, error
 	}
 
-	result := make([]float64, len(v))
+	result := make(Vector, len(tuples))
 
-	for i, x := range v {
-		result[i] = x + w[i]
+	for i, value := range tuples {
+		result[i] = value.A + value.B
 	}
-
-	return result
+	return result, error
+	// // validate(v)
+	// // validate(w)
+	// //
+	// // if len(v) != len(w) {
+	// // 	panic("The vectors have different sizes.")
+	// // }
+	// //
+	// // result := make([]float64, len(v))
+	// //
+	// // for i, x := range v {
+	// // 	result[i] = x + w[i]
+	// // }
+	//
+	// return result
 }
 
 //Subtract subtracts two vectors elementwise
-func (v Vector) Subtract(w Vector) Vector {
-	if len(v) != len(w) {
-		panic("The vectors have different sizes.")
-	}
-	result := make([]float64, len(v))
+func (v Vector) Subtract(w Vector) (Vector, error) {
+	tuples, error := util.Zip(v, w)
 
-	for i, x := range v {
-		result[i] = x - w[i]
+	if error != nil {
+		return nil, error
 	}
 
-	return result
+	result := make(Vector, len(tuples))
+
+	for i, value := range tuples {
+		result[i] = value.A - value.B
+	}
+	return result, error
 }
 
 func (v Vector) Dot(w Vector) float64 {
@@ -63,9 +77,14 @@ func (v Vector) SumOfSquares() float64 {
 	return v.Dot(v)
 }
 
-func (v Vector) SquaredDistance(w Vector) float64 {
-	result := v.Subtract(w)
-	return result.SumOfSquares()
+func (v Vector) SquaredDistance(w Vector) (float64, error) {
+	result, error := v.Subtract(w)
+	return result.SumOfSquares(), error
+}
+
+func (v Vector) Distance(w Vector) (float64, error) {
+	squareDistance, error := v.SquaredDistance(w)
+	return math.Sqrt(squareDistance), error
 }
 
 func matchingValue(fn binaryCondition, initial float64, vector Vector) float64 {

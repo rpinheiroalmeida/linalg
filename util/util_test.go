@@ -27,28 +27,17 @@ func TestZip(t *testing.T) {
 			[]float64{1.0, 2.0}, []float64{1.0},
 			[]Tuple{Tuple{A: 1.0, B: 1.0}},
 		},
+		{
+			[]float64{}, []float64{1.0, 3.0, 5.0}, []Tuple{},
+		},
+		{
+			[]float64{1.0, 3.0, 5.0}, []float64{}, []Tuple{},
+		},
 	}
 	for _, c := range cases {
-		gotZip, _ := Zip(c.v1, c.v2)
+		gotZip := Zip(c.v1, c.v2)
 		if !reflect.DeepEqual(gotZip, c.want) {
 			t.Errorf("Zip(%v, %v) want: %v; got: %v", c.v1, c.v2, c.want, gotZip)
-		}
-	}
-}
-
-func TestZip_WhenOneOfParametersIsEmpty(t *testing.T) {
-	cases := []struct {
-		v1 []float64
-		v2 []float64
-	}{
-		{[]float64{}, []float64{1.0, 3.0, 5.0}},
-		{[]float64{1.0, 2.0}, []float64{}},
-	}
-
-	for _, c := range cases {
-		gotZip, error := Zip(c.v1, c.v2)
-		if error == nil {
-			t.Errorf("Zip(%v, %v) want: expected error; got %v ", c.v1, c.v2, gotZip)
 		}
 	}
 }

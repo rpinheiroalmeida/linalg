@@ -1,23 +1,19 @@
 package util
 
-import (
-	"fmt"
-)
-
 type Tuple struct {
 	A, B float64
 }
 
-func Zip(a, b []float64) ([]Tuple, error) {
+func Zip(a, b []float64) []Tuple {
 
 	if len(a) == 0 || len(b) == 0 {
-		return nil, fmt.Errorf("Zip: one of the arguments is empty")
+		return []Tuple{}
 	}
 
 	if len(a) < len(b) {
-		return createTuples(a, b), nil
+		return createTuples(a, b)
 	}
-	return createTuples(a[:len(b)], b), nil
+	return createTuples(a[:len(b)], b)
 
 }
 

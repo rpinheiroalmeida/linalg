@@ -3,7 +3,7 @@ package vector
 import (
 	"math"
 
-	"github.com/rpinheiroalmeida/linalg/util"
+	"github.com/rpinheiroalmeida/collections"
 )
 
 type Vector []float64
@@ -29,7 +29,7 @@ func (v Vector) Swap(i, j int) {
 
 //Add subtracts two vectors element wise
 func (v Vector) Add(w Vector) Vector {
-	tuples := util.Zip(v, w)
+	tuples := collections.Zip(v, w)
 
 	result := make(Vector, len(tuples))
 
@@ -41,7 +41,7 @@ func (v Vector) Add(w Vector) Vector {
 
 //Subtract subtracts two vectors elementwise
 func (v Vector) Subtract(w Vector) Vector {
-	tuples := util.Zip(v, w)
+	tuples := collections.Zip(v, w)
 
 	result := make(Vector, len(tuples))
 
@@ -52,7 +52,7 @@ func (v Vector) Subtract(w Vector) Vector {
 }
 
 func (v Vector) Dot(w Vector) float64 {
-	tuples := util.Zip(v, w)
+	tuples := collections.Zip(v, w)
 	var sum float64
 	for _, tuple := range tuples {
 		sum += tuple.A * tuple.B

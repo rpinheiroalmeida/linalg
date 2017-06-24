@@ -1,4 +1,4 @@
-package vector
+package linalg
 
 import (
 	"math"
@@ -45,7 +45,7 @@ func SumOfSquares(sample collections.Vector) float64 {
 
 func SquaredDistance(x, y collections.Vector) float64 {
 	result := Subtract(x, y)
-	return result.SumOfSquares()
+	return SumOfSquares(result)
 }
 
 func Distance(x, y collections.Vector) float64 {

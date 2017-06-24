@@ -15,6 +15,18 @@ func validate(v Vector) {
 	}
 }
 
+func (v Vector) Len() int {
+	return len(v)
+}
+
+func (v Vector) Less(i, j int) bool {
+	return v[i] < v[j]
+}
+
+func (v Vector) Swap(i, j int) {
+	v[i], v[j] = v[j], v[i]
+}
+
 //Add subtracts two vectors element wise
 func (v Vector) Add(w Vector) Vector {
 	tuples := util.Zip(v, w)
@@ -79,10 +91,6 @@ func (v Vector) Min() float64 {
 	return matchingValue(math.Min, math.Inf(+1), v)
 }
 
-func (v Vector) Size() int {
-	return len(v)
-}
-
 func (v Vector) Empty() bool {
-	return v.Size() == 0
+	return v.Len() == 0
 }
